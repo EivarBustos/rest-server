@@ -4,6 +4,9 @@ const {Router} = require('express');
 const { usuariosGet, usuarioiosPut, usuarioiosPost, usuarioiosDelete, usuarioiosPatch } = require('../controller/usuarios');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { esRoleValido } = require('../helpers/db-validators');
+
+
 
 const router = Router();
 
@@ -18,6 +21,8 @@ router.post('/',[
     check('password', 'El pasword debe tener mas de 5 caracteres').isLength({min: 5}),
     check('correo', 'El correo no es valido').isEmail(),
     // check('rol', 'No es un rol permitido').isIn(['Admin_rol', 'User_rol']),
+
+    check('rol').custom(esRoleValido),
     validarCampos
 ], usuarioiosPost );
 router.delete('/', usuarioiosDelete );

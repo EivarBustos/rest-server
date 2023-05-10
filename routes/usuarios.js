@@ -33,7 +33,15 @@ router.post('/',[
     check('rol').custom(esRoleValido),
     validarCampos
 ], usuarioiosPost );
-router.delete('/', usuarioiosDelete );
+
+
+ router.delete('/:id', [
+    check('id', 'No es un id valido ').isMongoId(),
+    check('id').custom(existeUsuarioxid),
+    validarCampos
+],usuarioiosDelete );
+
+
 router.patch('/', usuarioiosPatch );
 
 module.exports = router ;

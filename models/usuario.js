@@ -37,8 +37,9 @@ const UsuarioSchema= Schema({
 });
 //No permitir que es POSMAN se muestre la clave y otros 
 UsuarioSchema.methods.toJSON = function(){
-  const {__v, password, ...usuarioM} = this.toObject();
+  const {__v, password, _id, ...usuarioM} = this.toObject();
   //los que si se muestran se guardaran en usuarioM 
+  usuarioM.uid=_id;
   return usuarioM;
 
 }

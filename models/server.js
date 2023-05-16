@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors');
 const { dbConnection } = require('../database/config.js');
+const fileUpload = require('express-fileupload')
+
 
  class Server{
     constructor(){
@@ -13,7 +15,8 @@ const { dbConnection } = require('../database/config.js');
           usuarios: '/api/usuarios',
           categorias:'/api/categorias',
           productos: '/api/productos',
-          buscar:  '/api/buscar'
+          buscar:  '/api/buscar',
+          uploads: '/api/uploads'
           
         }
 
@@ -35,10 +38,20 @@ const { dbConnection } = require('../database/config.js');
     middlewares(){
         //CORS Se recomienda siempre usarlo 
         this.app.use(cors());
+
         //lectura desde postman body raw jason 
         this.app.use(express.json());
+
         //Directorio Publico 
         this.app.use(express.static('public'));
+
+        //Fileupload - carga de archivos
+        this.app.use(fileUpload({
+          useTempFiles : true,
+          tempFileDir : '/tmp/',
+          //crea carpetas si se necesita
+          createParentPath: true
+      }));
     }
 
      
@@ -49,6 +62,7 @@ const { dbConnection } = require('../database/config.js');
      this.app.use(this.paths.categorias, require('../routes/categorias.js'));
      this.app.use(this.paths.productos, require('../routes/productos.js'))
      this.app.use(this.paths.buscar, require('../routes/busqueda.js'))
+     this.app.use(this.paths.uploads, require('../routes/uploads.js'))
 
 
 

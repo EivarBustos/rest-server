@@ -57,6 +57,21 @@ const existeProductoxid= async(id)=>{
     } 
 };
 
+
+//Validar colecciones permitidas  
+const coleccionesPermitidas= (coleccion='', colecciones=[])=>{
+ 
+   const incluida = colecciones.includes(coleccion);
+
+   //si no esta incluida 
+   if (!incluida){
+    throw new Error(`La coleccion ${ coleccion} no es permitida, las unicas permitidas son : ${ colecciones}`)
+   }
+
+   return true;
+        
+      
+};
     
     
     
@@ -66,5 +81,6 @@ module.exports={
     correoExiste,
     existeUsuarioxid,
     existeCategoriaxid,
-    existeProductoxid
+    existeProductoxid,
+    coleccionesPermitidas
 }
